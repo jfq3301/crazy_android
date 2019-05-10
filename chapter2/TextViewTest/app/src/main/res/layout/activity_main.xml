@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!--        android:background="@drawable/bg_border" failed. -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:textSize="20pt" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello World! Hello World! 1111111 Hello World! Hello World! "
+        android:textSize="20pt"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textAllCaps="true"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="email: fjiang2@yfve.com.cn tel: 15026818000 "
+        android:singleLine="true"
+        android:autoLink="email|phone" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:textSize="20pt"
+        android:textColor="#000"
+        android:shadowColor="#f00"
+        android:shadowDx="10.0"
+        android:shadowDy="20.0"
+        android:shadowRadius="1"/>
+
+    <!-- Input UI test -->
+
+</LinearLayout>
