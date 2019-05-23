@@ -6,14 +6,18 @@
 
 package com.example.textviewtest;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Switch;
@@ -29,6 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
     ToggleButton toggle;
     Switch switcher;
+
+    ImageView image1;
+    ImageView image2;
+    int[] images = new int[]{
+            R.drawable.lijiang,
+            R.drawable.qiao,
+            R.drawable.shuangta,
+            R.drawable.shui,
+            R.drawable.xiangbi
+    };
+    int currentImg = 2;
+    private int alpha = 255;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,27 +104,98 @@ public class MainActivity extends AppCompatActivity {
          * @brief chronometer test
          * @date 2019.5.14
          */
-        setContentView(R.layout.chronometer);
-        ch = findViewById(R.id.chrn_test);
-        start = findViewById(R.id.start);
+//        setContentView(R.layout.chronometer);
+//        ch = findViewById(R.id.chrn_test);
+//        start = findViewById(R.id.start);
+//
+//        start.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ch.setBase(SystemClock.elapsedRealtime());
+//                ch.start();
+//                start.setEnabled(false);
+//            }
+//        });
+//
+//        ch.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+//            @Override
+//            public void onChronometerTick(Chronometer chronometer) {
+//                if (SystemClock.elapsedRealtime() - ch.getBase() > 5 *1000) {
+//                    ch.stop();
+//                    start.setEnabled(true);
+//                }
+//            }
+//        });
 
-        start.setOnClickListener(new View.OnClickListener() {
+        /**
+         * @brief imageView test
+         * @date 2019.5.15
+         */
+        setContentView(R.layout.image_view_test);
+        final Button increaseA = findViewById(R.id.increaseAlpha);
+        final Button decreaseA = findViewById(R.id.decreaseAlpha);
+        Button nextImage = findViewById(R.id.nextImage);
+        image1 = findViewById(R.id.image1);
+        image2 = findViewById(R.id.image2);
+        image1.setImageResource(images[currentImg]);
+
+        nextImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ch.setBase(SystemClock.elapsedRealtime());
-                ch.start();
-                start.setEnabled(false);
+                image1.setImageResource(images[++currentImg % images.length]);
             }
         });
 
-        ch.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                if (SystemClock.elapsedRealtime() - ch.getBase() > 5 *1000) {
-                    ch.stop();
-                    start.setEnabled(true);
+        View.OnClickListener listener = new View.OnClickListener() {
+            public void onClick(View v) {
+                if (v == increaseA)
+                {
+                    alpha += 20;
+                } else if (v == decreaseA) {
+                    alpha -= 20;
                 }
+
+                if (alpha >= 255) {
+                    alpha = 255;
+                }
+
+                if (alpha <= 0) {
+                    alpha = 0;
+                }
+
+                image1.setImageAlpha(alpha);
+            }
+        };
+
+        increaseA.setOnClickListener(listener);
+        decreaseA.setOnClickListener(listener);
+
+//        boolean onTouch(View v, MotionEvent event);
+        image1.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) image1.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                double scale = 1.0 * bitmap.getHeight() / image1.getHeight();
+                int x = (int)(event.getX() * scale);
+                int y = (int)(event.getY() * scale);
+
+                if (x + 120 > bitmap.getWidth()){
+                    x = bitmap.getWidth() -120;
+                }
+                if (y + 120 > bitmap.getHeight()){
+                    y = bitmap.getHeight() -120;
+                }
+                image2.setImageBitmap(Bitmap.createBitmap(bitmap, x, y, 120, 120));
+                image2.setImageAlpha(alpha);
+                return  false;
             }
         });
+
+
+
+
+
     }
 }
