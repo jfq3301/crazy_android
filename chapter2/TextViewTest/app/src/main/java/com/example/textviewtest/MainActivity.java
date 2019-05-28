@@ -131,67 +131,74 @@ public class MainActivity extends AppCompatActivity {
          * @brief imageView test
          * @date 2019.5.15
          */
-        setContentView(R.layout.image_view_test);
-        final Button increaseA = findViewById(R.id.increaseAlpha);
-        final Button decreaseA = findViewById(R.id.decreaseAlpha);
-        Button nextImage = findViewById(R.id.nextImage);
-        image1 = findViewById(R.id.image1);
-        image2 = findViewById(R.id.image2);
-        image1.setImageResource(images[currentImg]);
+//        setContentView(R.layout.image_view_test);
+//        final Button increaseA = findViewById(R.id.increaseAlpha);
+//        final Button decreaseA = findViewById(R.id.decreaseAlpha);
+//        Button nextImage = findViewById(R.id.nextImage);
+//        image1 = findViewById(R.id.image1);
+//        image2 = findViewById(R.id.image2);
+//        image1.setImageResource(images[currentImg]);
+//
+//        nextImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                image1.setImageResource(images[++currentImg % images.length]);
+//            }
+//        });
+//
+//        View.OnClickListener listener = new View.OnClickListener() {
+//            public void onClick(View v) {
+//                if (v == increaseA)
+//                {
+//                    alpha += 20;
+//                } else if (v == decreaseA) {
+//                    alpha -= 20;
+//                }
+//
+//                if (alpha >= 255) {
+//                    alpha = 255;
+//                }
+//
+//                if (alpha <= 0) {
+//                    alpha = 0;
+//                }
+//
+//                image1.setImageAlpha(alpha);
+//            }
+//        };
+//
+//        increaseA.setOnClickListener(listener);
+//        decreaseA.setOnClickListener(listener);
+//
+//        image1.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                BitmapDrawable bitmapDrawable = (BitmapDrawable) image1.getDrawable();
+//                Bitmap bitmap = bitmapDrawable.getBitmap();
+//
+//                double scale = 1.0 * bitmap.getHeight() / image1.getHeight();
+//                int x = (int)(event.getX() * scale);
+//                int y = (int)(event.getY() * scale);
+//
+//                if (x + 120 > bitmap.getWidth()){
+//                    x = bitmap.getWidth() -120;
+//                }
+//                if (y + 120 > bitmap.getHeight()){
+//                    y = bitmap.getHeight() -120;
+//                }
+//                image2.setImageBitmap(Bitmap.createBitmap(bitmap, x, y, 120, 120));
+//                image2.setImageAlpha(alpha);
+//                return  false;
+//            }
+//        });
 
-        nextImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                image1.setImageResource(images[++currentImg % images.length]);
-            }
-        });
+        /**
+         * @brief imageButton test.
+         * @author fjiang2
+         * @date 2019.5.25
+         */
+        setContentView(R.layout.image_button_test);
 
-        View.OnClickListener listener = new View.OnClickListener() {
-            public void onClick(View v) {
-                if (v == increaseA)
-                {
-                    alpha += 20;
-                } else if (v == decreaseA) {
-                    alpha -= 20;
-                }
-
-                if (alpha >= 255) {
-                    alpha = 255;
-                }
-
-                if (alpha <= 0) {
-                    alpha = 0;
-                }
-
-                image1.setImageAlpha(alpha);
-            }
-        };
-
-        increaseA.setOnClickListener(listener);
-        decreaseA.setOnClickListener(listener);
-
-//        boolean onTouch(View v, MotionEvent event);
-        image1.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) image1.getDrawable();
-                Bitmap bitmap = bitmapDrawable.getBitmap();
-
-                double scale = 1.0 * bitmap.getHeight() / image1.getHeight();
-                int x = (int)(event.getX() * scale);
-                int y = (int)(event.getY() * scale);
-
-                if (x + 120 > bitmap.getWidth()){
-                    x = bitmap.getWidth() -120;
-                }
-                if (y + 120 > bitmap.getHeight()){
-                    y = bitmap.getHeight() -120;
-                }
-                image2.setImageBitmap(Bitmap.createBitmap(bitmap, x, y, 120, 120));
-                image2.setImageAlpha(alpha);
-                return  false;
-            }
-        });
 
 
 
