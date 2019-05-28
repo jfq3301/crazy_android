@@ -19,6 +19,7 @@ import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
 import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     };
     int currentImg = 2;
     private int alpha = 255;
+
+    QuickContactBadge badge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -197,12 +200,17 @@ public class MainActivity extends AppCompatActivity {
          * @author fjiang2
          * @date 2019.5.25
          */
-        setContentView(R.layout.image_button_test);
+//        setContentView(R.layout.image_button_test);
 
-
-
-
-
+        /**
+         * @brief quick contact badge test.
+         *   test failed.
+         * @author fjiang2
+         * @date 2019.5.28
+         */
+        setContentView(R.layout.quick_contact_badge_test);
+        badge = findViewById(R.id.badge);
+        badge.assignContactFromPhone("10086", false);
 
     }
 }
