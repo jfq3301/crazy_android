@@ -13,12 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Chronometer;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.QuickContactBadge;
 import android.widget.RadioGroup;
 import android.widget.Switch;
@@ -208,9 +211,32 @@ public class MainActivity extends AppCompatActivity {
          * @author fjiang2
          * @date 2019.5.28
          */
-        setContentView(R.layout.quick_contact_badge_test);
-        badge = findViewById(R.id.badge);
-        badge.assignContactFromPhone("10086", false);
+//        setContentView(R.layout.quick_contact_badge_test);
+//        badge = findViewById(R.id.badge);
+//        badge.assignContactFromPhone("10086", false);
+
+        /**
+         * @brief auto complete text view test.
+         * @author fjiang2
+         * @date 2019.5.30
+         */
+        setContentView(R.layout.auto_complete_text_view_test);
+        AutoCompleteTextView auto = findViewById(R.id.auto);
+        MultiAutoCompleteTextView mauto = findViewById(R.id.mauto);
+        String [] books = new String[]{
+                "crazy java",
+                "crazy ajax",
+                "crazy android",
+                "crazy xml"
+        };
+
+        ArrayAdapter<String> aa = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line,
+                books);
+
+        auto.setAdapter(aa);
+        mauto.setAdapter(aa);
+        mauto.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
 
     }
 }
