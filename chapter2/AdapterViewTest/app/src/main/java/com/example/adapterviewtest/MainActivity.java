@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.AdapterViewFlipper;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,17 +28,33 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String[] name = {"大头", "弄玉", "李清照", "李白"};
-    private String[] desp = {
-            "大头儿子小头爸爸",
-            "一个擅长音乐的女孩",
-            "一位杰出的女诗人",
-            "浪漫主义诗人"};
-    private int[] imageIds = {
-            R.drawable.tiger,
-            R.drawable.nongyu,
-            R.drawable.qingzhao,
-            R.drawable.libai};
+//    private String[] name = {"大头", "弄玉", "李清照", "李白"};
+//    private String[] desp = {
+//            "大头儿子小头爸爸",
+//            "一个擅长音乐的女孩",
+//            "一位杰出的女诗人",
+//            "浪漫主义诗人"};
+//    private int[] imageIds = {
+//            R.drawable.tiger,
+//            R.drawable.nongyu,
+//            R.drawable.qingzhao,
+//            R.drawable.libai};
+
+    private AdapterViewFlipper flipper;
+    int[] imagesIds = new int[] {
+            R.drawable.shuangzi,
+            R.drawable.shuangyu,
+            R.drawable.chunv,
+            R.drawable.tiancheng,
+            R.drawable.tianxie,
+            R.drawable.sheshou,
+            R.drawable.juxie,
+            R.drawable.shuiping,
+            R.drawable.shizi,
+            R.drawable.baiyang,
+            R.drawable.jinniu,
+            R.drawable.mojie
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,100 +163,164 @@ public class MainActivity extends AppCompatActivity {
          * @author fjiang2
          * @date 2019.5.30
          */
-        setContentView(R.layout.expand_list_view_test);
-        ExpandableListAdapter adapter = new BaseExpandableListAdapter() {
-            int[] logos = new int[] {
-              R.drawable.libai,
-              R.drawable.qingzhao,
-              R.drawable.nongyu
-            };
-            private String[] armTypes = new String[] {
-                    "神族兵种",
-                    "虫族兵种",
-                    "人族兵种",
-            };
-            private String[][] arms = new String[][] {
-                    {"狂战士", "龙骑士", "黑暗圣堂", "电兵" },
-                    {"小狗", "刺蛇", "狂战士", "狂战士" },
-                    {"机枪兵", "护士", "幽灵"}
-            };
+//        setContentView(R.layout.expand_list_view_test);
+//        ExpandableListAdapter adapter = new BaseExpandableListAdapter() {
+//            int[] logos = new int[] {
+//              R.drawable.libai,
+//              R.drawable.qingzhao,
+//              R.drawable.nongyu
+//            };
+//            private String[] armTypes = new String[] {
+//                    "神族兵种",
+//                    "虫族兵种",
+//                    "人族兵种",
+//            };
+//            private String[][] arms = new String[][] {
+//                    {"狂战士", "龙骑士", "黑暗圣堂", "电兵" },
+//                    {"小狗", "刺蛇", "狂战士", "狂战士" },
+//                    {"机枪兵", "护士", "幽灵"}
+//            };
+//
+//            @Override
+//            public int getGroupCount() {
+//                return armTypes.length;
+//            }
+//
+//            @Override
+//            public int getChildrenCount(int groupPosition) {
+//                return arms[groupPosition].length;
+//            }
+//
+//            @Override
+//            public Object getGroup(int groupPosition) {
+//                return armTypes[groupPosition];
+//            }
+//
+//            @Override
+//            public Object getChild(int groupPosition, int childPosition) {
+//                return arms[groupPosition][childPosition];
+//            }
+//
+//            @Override
+//            public long getGroupId(int groupPosition) {
+//                return groupPosition;
+//            }
+//
+//            @Override
+//            public long getChildId(int groupPosition, int childPosition) {
+//                return childPosition;
+//            }
+//
+//            @Override
+//            public boolean hasStableIds() {
+//                return true;
+//            }
+//
+//            @Override
+//            public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+//                LinearLayout ll = new LinearLayout(MainActivity.this);
+//                ll.setOrientation(0);
+//                ImageView logo = new ImageView(MainActivity.this);
+//                logo.setImageResource(logos[groupPosition]);
+//                ll.addView(logo);
+//
+//                TextView textView = getTextView();
+//                textView.setText(getGroup(groupPosition).toString());
+//                ll.addView(textView);
+//
+//                return ll;
+//            }
+//
+//            private TextView getTextView() {
+//                AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
+//                        ViewGroup.LayoutParams.MATCH_PARENT, 64
+//                );
+//                TextView tv = new TextView(MainActivity.this);
+//                tv.setLayoutParams(lp);
+//                tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+//                tv.setPadding(36, 0, 0, 0);
+//                tv.setTextSize(20);
+//                return  tv;
+//            }
+//
+//            @Override
+//            public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+//                TextView tv = getTextView();
+//                tv.setText(getChild(groupPosition, childPosition).toString());
+//                return tv;
+//            }
+//
+//            @Override
+//            public boolean isChildSelectable(int groupPosition, int childPosition) {
+//                return true;
+//            }
+//        };
+//
+//        ExpandableListView elv = findViewById(R.id.expandList);
+//        elv.setAdapter(adapter);
 
+        /**
+         * @brief spinner test
+         * @author fjiang2
+         * @date 2019.5.31
+         */
+//        setContentView(R.layout.spinner_test);
+//        Spinner spinner = findViewById(R.id.stSpinner);
+//        String[] arr = {"孙悟空", "猪八戒", "唐山"};
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+//                android.R.layout.simple_list_item_multiple_choice,
+//                arr);
+//        spinner.setAdapter(adapter);
+
+        /**
+         * @brief adapter view flipper test
+         * @author fjiang2
+         * @date 2019.5.31
+         */
+        setContentView(R.layout.adapter_view_flipper);
+        flipper = findViewById(R.id.flipper);
+        BaseAdapter adapter = new BaseAdapter() {
             @Override
-            public int getGroupCount() {
-                return armTypes.length;
+            public int getCount() {
+                return imagesIds.length;
             }
 
             @Override
-            public int getChildrenCount(int groupPosition) {
-                return arms[groupPosition].length;
+            public Object getItem(int position) {
+                return position;
             }
 
             @Override
-            public Object getGroup(int groupPosition) {
-                return armTypes[groupPosition];
+            public long getItemId(int position) {
+                return position;
             }
 
             @Override
-            public Object getChild(int groupPosition, int childPosition) {
-                return arms[groupPosition][childPosition];
-            }
-
-            @Override
-            public long getGroupId(int groupPosition) {
-                return groupPosition;
-            }
-
-            @Override
-            public long getChildId(int groupPosition, int childPosition) {
-                return childPosition;
-            }
-
-            @Override
-            public boolean hasStableIds() {
-                return true;
-            }
-
-            @Override
-            public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-                LinearLayout ll = new LinearLayout(MainActivity.this);
-                ll.setOrientation(0);
-                ImageView logo = new ImageView(MainActivity.this);
-                logo.setImageResource(logos[groupPosition]);
-                ll.addView(logo);
-
-                TextView textView = getTextView();
-                textView.setText(getGroup(groupPosition).toString());
-                ll.addView(textView);
-
-                return ll;
-            }
-
-            private TextView getTextView() {
-                AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT, 64
-                );
-                TextView tv = new TextView(MainActivity.this);
-                tv.setLayoutParams(lp);
-                tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-                tv.setPadding(36, 0, 0, 0);
-                tv.setTextSize(20);
-                return  tv;
-            }
-
-            @Override
-            public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-                TextView tv = getTextView();
-                tv.setText(getChild(groupPosition, childPosition).toString());
-                return tv;
-            }
-
-            @Override
-            public boolean isChildSelectable(int groupPosition, int childPosition) {
-                return true;
+            public View getView(int position, View convertView, ViewGroup parent) {
+                ImageView imageView = new ImageView(MainActivity.this);
+                imageView.setImageResource(imagesIds[position]);
+                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+                return imageView;
             }
         };
 
-        ExpandableListView elv = findViewById(R.id.expandList);
-        elv.setAdapter(adapter);
+        flipper.setAdapter(adapter);
+
+    }
+
+    public void prev(View source) {
+        flipper.showPrevious();
+        flipper.stopFlipping();
+    }
+
+    public void next(View source) {
+        flipper.showNext();
+        flipper.stopFlipping();
+    }
+
+    public void auto(View source) {
+        flipper.startFlipping();
     }
 }

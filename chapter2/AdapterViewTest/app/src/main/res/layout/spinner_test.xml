@@ -3,10 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <ExpandableListView
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/expandList"
-        android:childIndicator="@drawable/ok">
-    </ExpandableListView>
+        android:entries="@array/books"
+        android:prompt="@string/app_name">
+    </Spinner>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/stSpinner"
+        android:prompt="@string/app_name">
+    </Spinner>
+
 </LinearLayout>
