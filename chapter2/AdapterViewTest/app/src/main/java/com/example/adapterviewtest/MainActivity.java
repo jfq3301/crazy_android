@@ -3,11 +3,16 @@ package com.example.adapterviewtest;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -97,44 +102,143 @@ public class MainActivity extends AppCompatActivity {
          * @brief baseadapter test
          * @date 2019.5.12
          */
-        setContentView(R.layout.simple_adapter_test);
-        ListView myList = findViewById(R.id.my_list);
-        BaseAdapter base = new BaseAdapter() {
+//        setContentView(R.layout.simple_adapter_test);
+//        ListView myList = findViewById(R.id.my_list);
+//        BaseAdapter base = new BaseAdapter() {
+//            @Override
+//            public int getCount() {
+//                return 40;
+//            }
+//
+//            @Override
+//            public Object getItem(int position) {
+//                return null;
+//            }
+//
+//            @Override
+//            public long getItemId(int position) {
+//                return 0;
+//            }
+//
+//            @Override
+//            public View getView(int position, View convertView, ViewGroup parent) {
+//                LinearLayout line = new LinearLayout(MainActivity.this);
+//                line.setOrientation(0);
+//                ImageView image = new ImageView(MainActivity.this);
+//                image.setImageResource(R.drawable.libai);
+//                TextView tv = new TextView(MainActivity.this);
+//                tv.setText("第" + (position+1) + "个列表项");
+//                tv.setTextColor(Color.BLACK);
+//                tv.setTextSize(20);
+//                tv.setPadding(20, 0, 0, 0);
+//                line.addView(image);
+//                line.addView(tv);
+//
+//                return line;
+//            }
+//        };
+//
+//        myList.setAdapter(base);
+
+        /**
+         * @brief expandable list view test
+         * @author fjiang2
+         * @date 2019.5.30
+         */
+        setContentView(R.layout.expand_list_view_test);
+        ExpandableListAdapter adapter = new BaseExpandableListAdapter() {
+            int[] logos = new int[] {
+              R.drawable.libai,
+              R.drawable.qingzhao,
+              R.drawable.nongyu
+            };
+            private String[] armTypes = new String[] {
+                    "神族兵种",
+                    "虫族兵种",
+                    "人族兵种",
+            };
+            private String[][] arms = new String[][] {
+                    {"狂战士", "龙骑士", "黑暗圣堂", "电兵" },
+                    {"小狗", "刺蛇", "狂战士", "狂战士" },
+                    {"机枪兵", "护士", "幽灵"}
+            };
+
             @Override
-            public int getCount() {
-                return 40;
+            public int getGroupCount() {
+                return armTypes.length;
             }
 
             @Override
-            public Object getItem(int position) {
-                return null;
+            public int getChildrenCount(int groupPosition) {
+                return arms[groupPosition].length;
             }
 
             @Override
-            public long getItemId(int position) {
-                return 0;
+            public Object getGroup(int groupPosition) {
+                return armTypes[groupPosition];
             }
 
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                LinearLayout line = new LinearLayout(MainActivity.this);
-                line.setOrientation(0);
-                ImageView image = new ImageView(MainActivity.this);
-                image.setImageResource(R.drawable.libai);
+            public Object getChild(int groupPosition, int childPosition) {
+                return arms[groupPosition][childPosition];
+            }
+
+            @Override
+            public long getGroupId(int groupPosition) {
+                return groupPosition;
+            }
+
+            @Override
+            public long getChildId(int groupPosition, int childPosition) {
+                return childPosition;
+            }
+
+            @Override
+            public boolean hasStableIds() {
+                return true;
+            }
+
+            @Override
+            public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+                LinearLayout ll = new LinearLayout(MainActivity.this);
+                ll.setOrientation(0);
+                ImageView logo = new ImageView(MainActivity.this);
+                logo.setImageResource(logos[groupPosition]);
+                ll.addView(logo);
+
+                TextView textView = getTextView();
+                textView.setText(getGroup(groupPosition).toString());
+                ll.addView(textView);
+
+                return ll;
+            }
+
+            private TextView getTextView() {
+                AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT, 64
+                );
                 TextView tv = new TextView(MainActivity.this);
-                tv.setText("第" + (position+1) + "个列表项");
-                tv.setTextColor(Color.BLACK);
+                tv.setLayoutParams(lp);
+                tv.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
+                tv.setPadding(36, 0, 0, 0);
                 tv.setTextSize(20);
-                tv.setPadding(20, 0, 0, 0);
-                line.addView(image);
-                line.addView(tv);
+                return  tv;
+            }
 
-                return line;
+            @Override
+            public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+                TextView tv = getTextView();
+                tv.setText(getChild(groupPosition, childPosition).toString());
+                return tv;
+            }
+
+            @Override
+            public boolean isChildSelectable(int groupPosition, int childPosition) {
+                return true;
             }
         };
 
-        myList.setAdapter(base);
-
-
+        ExpandableListView elv = findViewById(R.id.expandList);
+        elv.setAdapter(adapter);
     }
 }
