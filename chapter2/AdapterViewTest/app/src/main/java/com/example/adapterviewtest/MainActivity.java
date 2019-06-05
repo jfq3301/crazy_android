@@ -1,9 +1,13 @@
 package com.example.adapterviewtest;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -14,12 +18,14 @@ import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,21 +46,33 @@ public class MainActivity extends AppCompatActivity {
 //            R.drawable.qingzhao,
 //            R.drawable.libai};
 
-    private AdapterViewFlipper flipper;
-    int[] imagesIds = new int[] {
-            R.drawable.shuangzi,
-            R.drawable.shuangyu,
-            R.drawable.chunv,
-            R.drawable.tiancheng,
-            R.drawable.tianxie,
-            R.drawable.sheshou,
-            R.drawable.juxie,
-            R.drawable.shuiping,
-            R.drawable.shizi,
-            R.drawable.baiyang,
-            R.drawable.jinniu,
-            R.drawable.mojie
-    };
+//    private AdapterViewFlipper flipper;
+//    int[] imagesIds = new int[] {
+//            R.drawable.shuangzi,
+//            R.drawable.shuangyu,
+//            R.drawable.chunv,
+//            R.drawable.tiancheng,
+//            R.drawable.tianxie,
+//            R.drawable.sheshou,
+//            R.drawable.juxie,
+//            R.drawable.shuiping,
+//            R.drawable.shizi,
+//            R.drawable.baiyang,
+//            R.drawable.jinniu,
+//            R.drawable.mojie
+//    };
+
+    public static final int NUMBER_PER_SCREEN = 12;
+    public static class DataItem {
+        public String dataName;
+        public Drawable drawable;
+    }
+
+    private ArrayList<DataItem> items = new ArrayList<DataItem>();
+    private int screenNo = -1;
+    private int screenCount;
+    ViewSwitcher switcher;
+    LayoutInflater inflater;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -277,50 +295,147 @@ public class MainActivity extends AppCompatActivity {
          * @author fjiang2
          * @date 2019.5.31
          */
-        setContentView(R.layout.adapter_view_flipper);
-        flipper = findViewById(R.id.flipper);
-        BaseAdapter adapter = new BaseAdapter() {
+//        setContentView(R.layout.adapter_view_flipper);
+//        flipper = findViewById(R.id.flipper);
+//        BaseAdapter adapter = new BaseAdapter() {
+//            @Override
+//            public int getCount() {
+//                return imagesIds.length;
+//            }
+//
+//            @Override
+//            public Object getItem(int position) {
+//                return position;
+//            }
+//
+//            @Override
+//            public long getItemId(int position) {
+//                return position;
+//            }
+//
+//            @Override
+//            public View getView(int position, View convertView, ViewGroup parent) {
+//                ImageView imageView = new ImageView(MainActivity.this);
+//                imageView.setImageResource(imagesIds[position]);
+//                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+//                imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.MATCH_PARENT));
+//                return imageView;
+//            }
+//        };
+//
+//        flipper.setAdapter(adapter);
+//
+//    }
+//
+//    public void prev(View source) {
+//        flipper.showPrevious();
+//        flipper.stopFlipping();
+//    }
+//
+//    public void next(View source) {
+//        flipper.showNext();
+//        flipper.stopFlipping();
+//    }
+//
+//    public void auto(View source) {
+//        flipper.startFlipping();
+//    }
+
+        /**
+         * @brief view switcher test
+         * @author fjiang2
+         * @date 2019.5.31
+         */
+        setContentView(R.layout.view_switcher_test);
+        inflater = LayoutInflater.from(this);
+        for (int i = 0; i < 40; i++) {
+            String label = "jfq" + i;
+//            Drawable drawable = getResources().getDrawable(R.drawable.libai);
+            Drawable drawable = ResourcesCompat.getDrawable(
+                    getResources(),
+                    R.drawable.libai,
+                    null);
+            DataItem item = new DataItem();
+            item.dataName = label;
+            item.drawable = drawable;
+            items.add(item);
+        }
+
+        screenCount = items.size() % NUMBER_PER_SCREEN == 0 ?
+                items.size() / NUMBER_PER_SCREEN :
+                items.size() / NUMBER_PER_SCREEN + 1;
+        switcher = findViewById(R.id.viewSwitcher);
+
+        switcher.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
-            public int getCount() {
-                return imagesIds.length;
+            public View makeView() {
+                return inflater.inflate(R.layout.slidelistview, null);
             }
+        });
 
-            @Override
-            public Object getItem(int position) {
-                return position;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return position;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                ImageView imageView = new ImageView(MainActivity.this);
-                imageView.setImageResource(imagesIds[position]);
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-                return imageView;
-            }
-        };
-
-        flipper.setAdapter(adapter);
-
+        // 加载第一屏
+        next(null);
     }
 
-    public void prev(View source) {
-        flipper.showPrevious();
-        flipper.stopFlipping();
+    public void next(View v) {
+        if (screenNo < screenCount - 1) {
+            screenNo++;
+            switcher.setInAnimation(this, R.anim.slide_in_right);
+            switcher.setOutAnimation(this, R.anim.slide_out_left);
+            ((GridView)switcher.getNextView()).setAdapter(adapter);
+            switcher.showNext();
+        }
     }
 
-    public void next(View source) {
-        flipper.showNext();
-        flipper.stopFlipping();
+    public void prev(View v) {
+        if (screenNo > 0) {
+            screenNo--;
+            switcher.setInAnimation(this, R.anim.slide_out_left);
+            switcher.setOutAnimation(this, R.anim.slide_in_right);
+            ((GridView)switcher.getNextView()).setAdapter(adapter);
+            switcher.showNext();
+        }
     }
 
-    public void auto(View source) {
-        flipper.startFlipping();
-    }
+    private BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+            int ret = NUMBER_PER_SCREEN;
+
+            if (screenNo == screenCount - 1) {
+                if (items.size() % NUMBER_PER_SCREEN != 0) {
+                    ret = items.size() % NUMBER_PER_SCREEN;
+                }
+            }
+
+            return ret;
+        }
+
+        @Override
+        public DataItem getItem(int position) {
+            return items.get(screenNo * NUMBER_PER_SCREEN + position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View view = convertView;
+            if (convertView == null) {
+                view = inflater.inflate(R.layout.labelicon, null);
+            }
+            ImageView imageView = view.findViewById(R.id.labelicon_imageview);
+            TextView tv = view.findViewById(R.id.labelicon_textview);
+            imageView.setImageDrawable(getItem(position).drawable);
+            tv.setText(getItem(position).dataName);
+            return view;
+
+//            return null;
+        }
+    };
+
 }
