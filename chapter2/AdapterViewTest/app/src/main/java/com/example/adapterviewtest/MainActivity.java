@@ -433,8 +433,6 @@ public class MainActivity extends AppCompatActivity {
             imageView.setImageDrawable(getItem(position).drawable);
             tv.setText(getItem(position).dataName);
             return view;
-
-//            return null;
         }
     };
 
