@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -75,14 +76,25 @@ public class MainActivity extends AppCompatActivity {
 //    ViewSwitcher switcher;
 //    LayoutInflater inflater;
 
-    int[] imageids = new int[] {
-            R.drawable.bomb5, R.drawable.bomb6, R.drawable.bomb7, R.drawable.bomb8,
-            R.drawable.bomb9, R.drawable.bomb10, R.drawable.bomb11, R.drawable.bomb12,
-            R.drawable.bomb13, R.drawable.bomb14, R.drawable.bomb15, R.drawable.bomb16
+//    int[] imageids = new int[] {
+//            R.drawable.bomb5, R.drawable.bomb6, R.drawable.bomb7, R.drawable.bomb8,
+//            R.drawable.bomb9, R.drawable.bomb10, R.drawable.bomb11, R.drawable.bomb12,
+//            R.drawable.bomb13, R.drawable.bomb14, R.drawable.bomb15, R.drawable.bomb16
+//    };
+//
+//    ImageSwitcher switcher;
+
+    TextSwitcher textSwitcher;
+    String[] bookStr = new String[] {
+            "crazy xml android",
+            "曾国潘传",
+            "篮球体能系统训练"
     };
+    int curStr = 0;
 
-    ImageSwitcher switcher;
-
+    public void next(View v) {
+        textSwitcher.setText(bookStr[curStr++ % bookStr.length]);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,54 +102,74 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_main);
 
         /**
+         * @brief text switcher test
+         * @date 2019.6.6
+         */
+        setContentView(R.layout.text_switcher);
+        textSwitcher = findViewById(R.id.textSwithcer);
+        textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                TextView tv = new TextView(MainActivity.this);
+                tv.setTextSize(40);
+                tv.setTextColor(Color.MAGENTA);
+                return tv;
+            }
+        });
+
+        next(null);
+
+
+
+        /**
          * @brief image switcher test
          * @date 2019.6.6
          */
-        setContentView(R.layout.image_switcher);
-        List<Map<String, Object>> listItems =
-                new ArrayList<Map<String, Object>>();
-        for (int i = 0; i < imageids.length; i++) {
-            Map<String, Object> listItem = new HashMap<String, Object>();
-            listItem.put("image", imageids[i]);
-            listItems.add(listItem);
-        }
-        switcher = findViewById(R.id.image_switcher);
-        switcher.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView imageView = new ImageView(MainActivity.this);
-                imageView.setScaleType(ImageView.ScaleType.FIT_START);
-                imageView.setLayoutParams(new ViewSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-
-                return imageView;
-            }
-        });
-
-        SimpleAdapter simpleAdapter = new SimpleAdapter(this,
-                listItems,
-                R.layout.cell,
-                new String[] {"image"},
-                new int[] {R.id.image1});
-        GridView gridView = findViewById(R.id.grid01);
-        gridView.setAdapter(simpleAdapter);
-        gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switcher.setImageResource(imageids[position]);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switcher.setImageResource(imageids[position]);
-            }
-        });
+//        setContentView(R.layout.image_switcher);
+//        List<Map<String, Object>> listItems =
+//                new ArrayList<Map<String, Object>>();
+//        for (int i = 0; i < imageids.length; i++) {
+//            Map<String, Object> listItem = new HashMap<String, Object>();
+//            listItem.put("image", imageids[i]);
+//            listItems.add(listItem);
+//        }
+//        switcher = findViewById(R.id.image_switcher);
+//        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+//            @Override
+//            public View makeView() {
+//                ImageView imageView = new ImageView(MainActivity.this);
+//                imageView.setScaleType(ImageView.ScaleType.FIT_START);
+//                imageView.setLayoutParams(new ViewSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                        ViewGroup.LayoutParams.MATCH_PARENT));
+//
+//                传return imageView;
+//            }
+//        });
+//
+//        SimpleAdapter simpleAdapter = new SimpleAdapter(this,
+//                listItems,
+//                R.layout.cell,
+//                new String[] {"image"},
+//                new int[] {R.id.image1});
+//        GridView gridView = findViewById(R.id.grid01);
+//        gridView.setAdapter(simpleAdapter);
+//        gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                switcher.setImageResource(imageids[position]);
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//
+//            }
+//        });
+//        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                switcher.setImageResource(imageids[position]);
+//            }
+//        });
 
 
         /**
