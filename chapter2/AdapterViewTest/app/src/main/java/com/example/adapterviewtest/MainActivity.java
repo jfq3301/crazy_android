@@ -19,6 +19,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.GridView;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -62,22 +63,82 @@ public class MainActivity extends AppCompatActivity {
 //            R.drawable.mojie
 //    };
 
-    public static final int NUMBER_PER_SCREEN = 12;
-    public static class DataItem {
-        public String dataName;
-        public Drawable drawable;
-    }
+//    public static final int NUMBER_PER_SCREEN = 12;
+//    public static class DataItem {
+//        public String dataName;
+//        public Drawable drawable;
+//    }
 
-    private ArrayList<DataItem> items = new ArrayList<DataItem>();
-    private int screenNo = -1;
-    private int screenCount;
-    ViewSwitcher switcher;
-    LayoutInflater inflater;
+//    private ArrayList<DataItem> items = new ArrayList<DataItem>();
+//    private int screenNo = -1;
+//    private int screenCount;
+//    ViewSwitcher switcher;
+//    LayoutInflater inflater;
+
+    int[] imageids = new int[] {
+            R.drawable.bomb5, R.drawable.bomb6, R.drawable.bomb7, R.drawable.bomb8,
+            R.drawable.bomb9, R.drawable.bomb10, R.drawable.bomb11, R.drawable.bomb12,
+            R.drawable.bomb13, R.drawable.bomb14, R.drawable.bomb15, R.drawable.bomb16
+    };
+
+    ImageSwitcher switcher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
+
+        /**
+         * @brief image switcher test
+         * @date 2019.6.6
+         */
+        setContentView(R.layout.image_switcher);
+        List<Map<String, Object>> listItems =
+                new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < imageids.length; i++) {
+            Map<String, Object> listItem = new HashMap<String, Object>();
+            listItem.put("image", imageids[i]);
+            listItems.add(listItem);
+        }
+        switcher = findViewById(R.id.image_switcher);
+        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView imageView = new ImageView(MainActivity.this);
+                imageView.setScaleType(ImageView.ScaleType.FIT_START);
+                imageView.setLayoutParams(new ViewSwitcher.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT));
+
+                return imageView;
+            }
+        });
+
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this,
+                listItems,
+                R.layout.cell,
+                new String[] {"image"},
+                new int[] {R.id.image1});
+        GridView gridView = findViewById(R.id.grid01);
+        gridView.setAdapter(simpleAdapter);
+        gridView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switcher.setImageResource(imageids[position]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switcher.setImageResource(imageids[position]);
+            }
+        });
+
 
         /**
          * @brief array adapter test
@@ -347,93 +408,95 @@ public class MainActivity extends AppCompatActivity {
          * @author fjiang2
          * @date 2019.5.31
          */
-        setContentView(R.layout.view_switcher_test);
-        inflater = LayoutInflater.from(this);
-        for (int i = 0; i < 40; i++) {
-            String label = "jfq" + i;
-//            Drawable drawable = getResources().getDrawable(R.drawable.libai);
-            Drawable drawable = ResourcesCompat.getDrawable(
-                    getResources(),
-                    R.drawable.libai,
-                    null);
-            DataItem item = new DataItem();
-            item.dataName = label;
-            item.drawable = drawable;
-            items.add(item);
-        }
+//        setContentView(R.layout.view_switcher_test);
+//        inflater = LayoutInflater.from(this);
+//        for (int i = 0; i < 40; i++) {
+//            String label = "jfq" + i;
+////            Drawable drawable = getResources().getDrawable(R.drawable.libai);
+//            Drawable drawable = ResourcesCompat.getDrawable(
+//                    getResources(),
+//                    R.drawable.libai,
+//                    null);
+//            DataItem item = new DataItem();
+//            item.dataName = label;
+//            item.drawable = drawable;
+//            items.add(item);
+//        }
+//
+//        screenCount = items.size() % NUMBER_PER_SCREEN == 0 ?
+//                items.size() / NUMBER_PER_SCREEN :
+//                items.size() / NUMBER_PER_SCREEN + 1;
+//        switcher = findViewById(R.id.viewSwitcher);
+//
+//        switcher.setFactory(new ViewSwitcher.ViewFactory() {
+//            @Override
+//            public View makeView() {
+//                return inflater.inflate(R.layout.slidelistview, null);
+//            }
+//        });
+//
+//        // 加载第一屏
+//        next(null);
+//    }
+//
+//    public void next(View v) {
+//        if (screenNo < screenCount - 1) {
+//            screenNo++;
+//            switcher.setInAnimation(this, R.anim.slide_in_right);
+//            switcher.setOutAnimation(this, R.anim.slide_out_left);
+//            ((GridView)switcher.getNextView()).setAdapter(adapter);
+//            switcher.showNext();
+//        }
+//    }
+//
+//    public void prev(View v) {
+//        if (screenNo > 0) {
+//            screenNo--;
+//            switcher.setInAnimation(this, R.anim.slide_out_left);
+//            switcher.setOutAnimation(this, R.anim.slide_in_right);
+//            ((GridView)switcher.getNextView()).setAdapter(adapter);
+//            switcher.showNext();
+//        }
+//    }
+//
+//    private BaseAdapter adapter = new BaseAdapter() {
+//        @Override
+//        public int getCount() {
+//            int ret = NUMBER_PER_SCREEN;
+//
+//            if (screenNo == screenCount - 1) {
+//                if (items.size() % NUMBER_PER_SCREEN != 0) {
+//                    ret = items.size() % NUMBER_PER_SCREEN;
+//                }
+//            }
+//
+//            return ret;
+//        }
+//
+//        @Override
+//        public DataItem getItem(int position) {
+//            return items.get(screenNo * NUMBER_PER_SCREEN + position);
+//        }
+//
+//        @Override
+//        public long getItemId(int position) {
+//            return position;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//            View view = convertView;
+//            if (convertView == null) {
+//                view = inflater.inflate(R.layout.labelicon, null);
+//            }
+//            ImageView imageView = view.findViewById(R.id.labelicon_imageview);
+//            TextView tv = view.findViewById(R.id.labelicon_textview);
+//            imageView.setImageDrawable(getItem(position).drawable);
+//            tv.setText(getItem(position).dataName);
+//            return view;
+//        }
+//    };
 
-        screenCount = items.size() % NUMBER_PER_SCREEN == 0 ?
-                items.size() / NUMBER_PER_SCREEN :
-                items.size() / NUMBER_PER_SCREEN + 1;
-        switcher = findViewById(R.id.viewSwitcher);
-
-        switcher.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                return inflater.inflate(R.layout.slidelistview, null);
-            }
-        });
-
-        // 加载第一屏
-        next(null);
     }
-
-    public void next(View v) {
-        if (screenNo < screenCount - 1) {
-            screenNo++;
-            switcher.setInAnimation(this, R.anim.slide_in_right);
-            switcher.setOutAnimation(this, R.anim.slide_out_left);
-            ((GridView)switcher.getNextView()).setAdapter(adapter);
-            switcher.showNext();
-        }
-    }
-
-    public void prev(View v) {
-        if (screenNo > 0) {
-            screenNo--;
-            switcher.setInAnimation(this, R.anim.slide_out_left);
-            switcher.setOutAnimation(this, R.anim.slide_in_right);
-            ((GridView)switcher.getNextView()).setAdapter(adapter);
-            switcher.showNext();
-        }
-    }
-
-    private BaseAdapter adapter = new BaseAdapter() {
-        @Override
-        public int getCount() {
-            int ret = NUMBER_PER_SCREEN;
-
-            if (screenNo == screenCount - 1) {
-                if (items.size() % NUMBER_PER_SCREEN != 0) {
-                    ret = items.size() % NUMBER_PER_SCREEN;
-                }
-            }
-
-            return ret;
-        }
-
-        @Override
-        public DataItem getItem(int position) {
-            return items.get(screenNo * NUMBER_PER_SCREEN + position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View view = convertView;
-            if (convertView == null) {
-                view = inflater.inflate(R.layout.labelicon, null);
-            }
-            ImageView imageView = view.findViewById(R.id.labelicon_imageview);
-            TextView tv = view.findViewById(R.id.labelicon_textview);
-            imageView.setImageDrawable(getItem(position).drawable);
-            tv.setText(getItem(position).dataName);
-            return view;
-        }
-    };
 
 }
