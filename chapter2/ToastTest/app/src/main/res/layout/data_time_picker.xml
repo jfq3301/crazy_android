@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Input detail data and time:"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/showEditText"
+        android:inputType="none"
+        android:cursorVisible="false"/>
+    <DatePicker
+        android:id="@+id/dataPicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:startYear="2000"
+        android:endYear="2022"
+        android:spinnersShown="true"/>
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:timePickerMode="spinner"/>
+
+
+</LinearLayout>
