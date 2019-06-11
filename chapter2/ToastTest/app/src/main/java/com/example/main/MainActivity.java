@@ -1,31 +1,16 @@
-/**
- * @biref toast test.
- * @author jfq3301
- * @date 2019.5.6
- */
-
 package com.example.main;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.Gravity;
+
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CalendarView;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.SearchView;
-import android.widget.TextView;
-import android.widget.TimePicker;
-import android.widget.Toast;
 
-import java.util.Calendar;
 
+//public class MainActivity extends TabActivity {
 public class MainActivity extends AppCompatActivity {
 
 //    private int year;
@@ -41,13 +26,39 @@ public class MainActivity extends AppCompatActivity {
 //        et.setText("day: " + year + "." + (month+1) + "." + day + " " + hour + ":" + minute + ":00" );
 //    }
 
-    private SearchView sv;
-    private ListView lv;
-    private final String[] mStrings = {
-            "aaaaaaaa",
-            "bbbbbbbb",
-            "cccccccc"
-    };
+//    private SearchView sv;
+//    private ListView lv;
+//    private final String[] mStrings = {
+//            "aaaaaaaa",
+//            "bbbbbbbb",
+//            "cccccccc"
+//    };
+
+    static final int NOTIFICATION_ID = 123;
+    NotificationManager nm;
+
+    public void send(View source) {
+        Intent intent = new Intent(MainActivity.this, OtherActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(
+                MainActivity.this, 0, intent, 0);
+//        Notification notify = new Notification.Builder(this)
+//                .setContentIntent(pi)
+//                .build();
+        Notification notify = new Notification.Builder(this, "default")
+                .setAutoCancel(true)
+                .setTicker("New message")
+                .setSmallIcon(R.drawable.notify)
+                .setContentTitle("There is new message")
+                .setContentText("Congratunations, salary increased.")
+                .setWhen(System.currentTimeMillis())
+                .setContentIntent(pi)
+                .build();
+        nm.notify(NOTIFICATION_ID, notify);
+    }
+
+    public void del(View v) {
+        nm.cancel(NOTIFICATION_ID);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,39 +66,57 @@ public class MainActivity extends AppCompatActivity {
 //        setContentView(R.layout.activity_main);
 
         /**
+         * @brief notification test
+         *  test failed to start new activity.
+         * @author fjiang2
+         * @date 2019.6.11
+         */
+        setContentView(R.layout.notification_main);
+        nm = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+
+
+        /**
+         * @brief tabhost test
+         *   No TabActivity now, should use fragment instead.
+         * @author fjiang2
+         * @date 2019.6.11
+         */
+//        setContentView(R.layout.scroll_test);
+
+        /**
          * @brief search view test
          * @author fjiang2
          * @date 2019.6.11
          */
-        setContentView(R.layout.search_view_test);
-        lv = findViewById(R.id.lv);
-        sv = findViewById(R.id.sv);
-        lv.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                mStrings));
-        lv.setTextFilterEnabled(true);
-        sv.setIconifiedByDefault(false);
-        sv.setSubmitButtonEnabled(true);
-        sv.setQueryHint("search some thing");
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this,
-                        "your choose: " + query,
-                        Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                if (TextUtils.isEmpty(newText)) {
-                    lv.clearTextFilter();
-                } else {
-                    lv.setFilterText(newText);
-                }
-                return false;
-            }
-        });
+//        setContentView(R.layout.search_view_test);
+//        lv = findViewById(R.id.lv);
+//        sv = findViewById(R.id.sv);
+//        lv.setAdapter(new ArrayAdapter<String>(this,
+//                android.R.layout.simple_list_item_1,
+//                mStrings));
+//        lv.setTextFilterEnabled(true);
+//        sv.setIconifiedByDefault(false);
+//        sv.setSubmitButtonEnabled(true);
+//        sv.setQueryHint("search some thing");
+//        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                Toast.makeText(MainActivity.this,
+//                        "your choose: " + query,
+//                        Toast.LENGTH_SHORT).show();
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                if (TextUtils.isEmpty(newText)) {
+//                    lv.clearTextFilter();
+//                } else {
+//                    lv.setFilterText(newText);
+//                }
+//                return false;
+//            }
+//        });
 
 
         /**
