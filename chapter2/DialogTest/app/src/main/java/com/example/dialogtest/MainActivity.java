@@ -5,6 +5,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -86,6 +88,38 @@ public class MainActivity extends AppCompatActivity {
         builder.create().show();
     }
 
+    /**
+     * test failed. 2019.6.13.
+     *
+     */
+    public void customList(View v) {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this);
+        builder.setTitle("自定义列表项对话框");
+        builder.setIcon(R.drawable.tools);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                R.layout.array_item,
+                items);
+        builder.setAdapter(adapter, null);
 
+        builder.setPositiveButton("确定", null);
+        builder.setNegativeButton("取消", null);
+        builder.create().show();
+    }
+
+    public void customView(View v) {
+        TableLayout loginForm = (TableLayout)getLayoutInflater()
+            .inflate(R.layout.login, null);
+
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(this);
+        builder.setTitle("自定义试图对话框");
+        builder.setIcon(R.drawable.tools);
+        builder.setView(loginForm);
+
+        builder.setPositiveButton("确定", null);
+        builder.setNegativeButton("取消", null);
+        builder.create().show();
+    }
 
 }
