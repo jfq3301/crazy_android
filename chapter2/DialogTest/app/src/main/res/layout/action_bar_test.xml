@@ -25,5 +25,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="启动另一个activity" />
+    <Button
+        android:id="@+id/bnPopupMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PopupMenu测试"/>
 
 </LinearLayout>

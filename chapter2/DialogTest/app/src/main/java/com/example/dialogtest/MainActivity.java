@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
 
     EditText etMenu;
     Button startActivityBn;
+    Button bnPopup;
+    PopupMenu popup = null;
 
     final int FONT_10 = 0X111;
     final int FONT_12 = 0X112;
@@ -179,6 +182,33 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,
                         OtherActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        bnPopup = findViewById(R.id.bnPopupMenu);
+        bnPopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popup = new PopupMenu(MainActivity.this, v);
+                getMenuInflater().inflate(R.menu.popup_menu, popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.exit:
+                                popup.dismiss();
+                                break;
+                                default:
+                                    Toast.makeText(MainActivity.this,
+                                            "your click " + item.getTitle(),
+                                            Toast.LENGTH_SHORT).show();
+                                    break;
+
+                        }
+                        return true;
+                    }
+                });
+                popup.show();
             }
         });
 
