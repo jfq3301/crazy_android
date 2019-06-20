@@ -30,4 +30,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="获取service状态"/>
+    <Button
+        android:id="@+id/btnStartBindService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="启动bindService"/>
+    <Button
+        android:id="@+id/btnVibratorTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="btnVibratorTest"/>
 </LinearLayout>

@@ -21,7 +21,19 @@ public class FirstService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("Service is started.");
+        System.out.println("Service is started.  --enter.");
+        long endTime = System.currentTimeMillis() + 20 * 1000;
+        while (System.currentTimeMillis() < endTime) {
+            synchronized (this) {
+                try
+                {
+                    wait(endTime - System.currentTimeMillis());
+                } catch (Exception e) {
+
+                }
+            }
+        }
+        System.out.println("Service is started.  --exit.");
         return START_STICKY;
     }
 

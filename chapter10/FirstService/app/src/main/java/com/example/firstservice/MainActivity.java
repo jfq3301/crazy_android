@@ -1,13 +1,16 @@
 package com.example.firstservice;
 
+import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,13 +19,15 @@ public class MainActivity extends AppCompatActivity {
     Button btnBind;
     Button btnUnbind;
     Button btnGetServiceStatus;
+    Button btnStartBindService;
     BindService.MyBinder binder;
+    Intent intentBind;
 
     private ServiceConnection conn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             System.out.println("[jfq] Service is connected.");
-            binder = service;
+            binder = (BindService.MyBinder)service;
         }
 
         @Override
@@ -44,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         btnStart = findViewById(R.id.bnStart);
         btnStop = findViewById(R.id.bnStop);
-        final Intent intent = new Intent(this, FirstService.class);
+        final Intent intent = new Intent(this, MyIntentService.class);
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,11 +67,50 @@ public class MainActivity extends AppCompatActivity {
         btnBind = findViewById(R.id.btnBind);
         btnUnbind = findViewById(R.id.btnUnbind);
         btnGetServiceStatus = findViewById(R.id.btnGetServiceStatus);
-        final Intent intentBind = new Intent(this, BindService.class);
+        btnStartBindService = findViewById(R.id.btnStartBindService);
+        intentBind = new Intent(this,
+                BindService.class);
         btnBind.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bindService(intentBind, conn, );
+                bindService(intentBind, conn, Service.BIND_AUTO_CREATE);
+            }
+        });
+
+        btnUnbind.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                unbindService(conn);
+            }
+        });
+
+        btnGetServiceStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,
+                        "service count: " + binder.getCount(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnStartBindService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startService(intentBind);
+            }
+        });
+
+
+        Button btnVibratorTest = findViewById(R.id.btnVibratorTest);
+        btnVibratorTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Vibrator vibrator = (Vibrator)getSystemService(
+                        Service.VIBRATOR_SERVICE
+                );
+                vibrator.vibrate(2000);
+                Toast.makeText(MainActivity.this, "vibrator test",
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
