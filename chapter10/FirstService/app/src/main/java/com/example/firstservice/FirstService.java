@@ -13,4 +13,21 @@ public class FirstService extends Service {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        System.out.println("Service is created.");
+    }
+
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        System.out.println("Service is started.");
+        return START_STICKY;
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        System.out.println("Service is destroyed.");
+
+    }
 }

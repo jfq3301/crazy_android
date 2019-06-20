@@ -15,4 +15,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="停止service"/>
+    <Button
+        android:id="@+id/btnBind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="绑定service"/>
+    <Button
+        android:id="@+id/btnUnbind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="解绑service"/>
+    <Button
+        android:id="@+id/btnGetServiceStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取service状态"/>
 </LinearLayout>
