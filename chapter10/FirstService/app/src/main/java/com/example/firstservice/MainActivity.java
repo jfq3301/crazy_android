@@ -113,5 +113,16 @@ public class MainActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        Button btnSendBroadcast = findViewById(R.id.btnSendBroadcast);
+        btnSendBroadcast.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction("org.crazyit.action.CRAZY_BROADCAST");
+                intent.putExtra("msg", "简单的消息测试");
+                sendBroadcast(intent);
+            }
+        });
     }
 }
