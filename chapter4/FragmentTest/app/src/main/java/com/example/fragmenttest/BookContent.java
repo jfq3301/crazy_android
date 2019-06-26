@@ -30,9 +30,9 @@ public class BookContent {
     static {
         addItem(new Book(1, "疯狂java讲义",
             "一本java语言编程书籍。"));
-        addItem(new Book(1, "疯狂android讲义",
+        addItem(new Book(2, "疯狂android讲义",
                 "一本android app开发指南书籍。"));
-        addItem(new Book(1, "轻量级java ee企业应用实战",
+        addItem(new Book(3, "轻量级java ee企业应用实战",
                 "介绍java ee开发的struts 2, spring, hibernate 4."));
     }
 
