@@ -71,4 +71,20 @@
         android:text="注册"
         android:textSize="16sp"/>
 
+    <View
+        android:layout_height="6dp"
+        android:layout_width="match_parent"
+        android:background="@color/colorPrimaryDark"/>
+
+    <Button
+        android:id="@+id/btnStart"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="启动"/>
+    <Button
+        android:id="@+id/btnQuit"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="退出"/>
+
 </TableLayout>
