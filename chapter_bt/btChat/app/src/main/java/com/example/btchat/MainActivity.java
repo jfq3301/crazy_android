@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewAnimator;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 
 import com.example.common.activities.SampleActivityBase;
 import com.example.common.logger.Log;
@@ -28,6 +30,7 @@ public class MainActivity extends SampleActivityBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             BluetoothChatFragment fragment = new BluetoothChatFragment();
@@ -46,7 +49,7 @@ public class MainActivity extends SampleActivityBase {
     public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem logToggle = menu.findItem(R.id.menu_toggle_log);
         logToggle.setVisible(findViewById(R.id.sample_out) instanceof ViewAnimator);
-        logToggle.setTitle(mLogShown ? R.string.sample_hide_log: R.string.sample_shwo_log);
+        logToggle.setTitle(mLogShown ? R.string.sample_hide_log: R.string.sample_show_log);
 
         return super.onPrepareOptionsMenu(menu);
     }
