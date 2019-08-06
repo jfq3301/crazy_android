@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+    <!--android:text="http://40.102.44.207/info.php"-->
+    <EditText
+        android:id="@+id/url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="http://www.baidu.com" />
+    <Button
+        android:id="@+id/gogo"
+        android:text="前往"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <WebView
+        android:id="@+id/show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></WebView>
+</LinearLayout>
